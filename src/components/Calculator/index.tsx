@@ -122,7 +122,7 @@ export default function Calculator() {
             onChange={handleChange}
             input={<Input
               className={styles.multiSelect} />}
-            renderValue={(selected) => (
+            renderValue={(selected: any) => (
               <div className={classes.chips}>
                 {selected.map((value) => (
                   <Chip key={value} label={value} className={classes.chip} />
