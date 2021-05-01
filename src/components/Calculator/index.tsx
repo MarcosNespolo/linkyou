@@ -73,6 +73,7 @@ export default function Calculator() {
   const [transportadoraName, setTransportadoraName] = useState([]);
   const [numPedidos, setNumPedidos] = useState(500);
   const [valor, setValor] = useState(0);
+  const [valorPedido, setValorPedido] = useState(0);
   const minPedidos = 0;
   const maxPedidos = 5000;
   const ITEM_HEIGHT = 48;
@@ -94,8 +95,10 @@ export default function Calculator() {
   };
 
   useEffect(() => {
-    api.get('tracking?monthlyOrders=650&courrierCompanies=3')
+    api.get(`tracking?monthlyOrders=${contTransportadoras}&courrierCompanies=${numPedidos}`)
       .then(response => {
+        setValor(response.data.monthlyCost);
+        setValorPedido(response.data.orderCost);
         console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
@@ -103,9 +106,6 @@ export default function Calculator() {
       });
   }, [contTransportadoras, numPedidos]);
 
-//  useEffect(() => {
-//    setValor(contTransportadoras * numPedidos)
-//  }, [contTransportadoras, numPedidos]);
   return (
     <div className={styles.calculatorContainer}>
       <header>
@@ -163,10 +163,10 @@ export default function Calculator() {
           </span>
           <div className="break"></div>
           <span className={styles.costFinal}>
-            R$ {valor},00 mensal
+            R$ {valor} mensal
           </span>
           <span className={styles.costFinal}>
-            ({valor / 10} por pedido)
+            ({valorPedido} por pedido)
           </span>
         </div>
       </div>
