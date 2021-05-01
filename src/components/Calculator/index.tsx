@@ -95,16 +95,18 @@ export default function Calculator() {
   };
 
   useEffect(() => {
-    console.log(`tracking?monthlyOrders=${contTransportadoras}&courrierCompanies=${numPedidos}`);
-    api.get(`tracking?monthlyOrders=${contTransportadoras}&courrierCompanies=${numPedidos}`)
-      .then(response => {
-        setValor(response.data.monthlyCost);
-        setValorPedido(response.data.orderCost);
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (numPedidos > 0 && contTransportadoras > 0) {
+      console.log(`tracking?monthlyOrders=${numPedidos}&courrierCompanies=${contTransportadoras}`);
+      api.get(`tracking?monthlyOrders=${numPedidos}&courrierCompanies=${contTransportadoras}`)
+        .then(response => {
+          setValor(response.data.monthlyCost);
+          setValorPedido(response.data.orderCost);
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [contTransportadoras, numPedidos]);
 
   return (
