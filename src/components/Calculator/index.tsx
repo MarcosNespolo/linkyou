@@ -93,7 +93,7 @@ export default function Calculator() {
 
   };
 
-  /*useEffect(() => {
+  useEffect(() => {
     api.get('tracking?monthlyOrders=650&courrierCompanies=3')
       .then(response => {
         JSON.stringify(response.data);
@@ -102,10 +102,10 @@ export default function Calculator() {
         console.log(error);
       });
   }, [contTransportadoras, numPedidos]);
-*/
-  useEffect(() => {
-    setValor(contTransportadoras * numPedidos)
-  }, [contTransportadoras, numPedidos]);
+
+//  useEffect(() => {
+//    setValor(contTransportadoras * numPedidos)
+//  }, [contTransportadoras, numPedidos]);
   return (
     <div className={styles.calculatorContainer}>
       <header>
