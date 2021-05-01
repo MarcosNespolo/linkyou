@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://backend-dtmnko4sv-gabrielsestrem.vercel.app/api/pricing/',
+  baseURL: 'https://backend-gabrielsestrem.vercel.app/api/pricing/',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
