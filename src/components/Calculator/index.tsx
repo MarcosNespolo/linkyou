@@ -95,6 +95,7 @@ export default function Calculator() {
   };
 
   useEffect(() => {
+    console.log(`tracking?monthlyOrders=${contTransportadoras}&courrierCompanies=${numPedidos}`);
     api.get(`tracking?monthlyOrders=${contTransportadoras}&courrierCompanies=${numPedidos}`)
       .then(response => {
         setValor(response.data.monthlyCost);
