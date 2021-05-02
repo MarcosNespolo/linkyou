@@ -72,6 +72,7 @@ export default function Calculator() {
   const [contTransportadoras, setContTransportadora] = useState(0);
   const [transportadoraName, setTransportadoraName] = useState([]);
   const [numPedidos, setNumPedidos] = useState(500);
+  const [numPedidosApi, setNumPedidosApi] = useState(500);
   const [valor, setValor] = useState(0);
   const [valorPedido, setValorPedido] = useState(0);
   const minPedidos = 0;
@@ -91,23 +92,20 @@ export default function Calculator() {
   const handleChange = (event) => {
     setContTransportadora(event.target.value.length);
     setTransportadoraName(event.target.value);
-
   };
 
   useEffect(() => {
     if (numPedidos > 0 && contTransportadoras > 0) {
-      console.log(`tracking?monthlyOrders=${numPedidos}&courrierCompanies=${contTransportadoras}`);
-      api.get(`tracking?monthlyOrders=${numPedidos}&courrierCompanies=${contTransportadoras}`)
+      api.get(`tracking?monthlyOrders=${numPedidosApi}&courrierCompanies=${contTransportadoras}`)
         .then(response => {
-          setValor(response.data.monthlyCost);
-          setValorPedido(response.data.orderCost);
-          console.log(JSON.stringify(response.data));
+          setValor(response.data.montlhyCost.toFixed(2));
+          setValorPedido(response.data.orderCost.toFixed(2));
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [contTransportadoras, numPedidos]);
+  }, [contTransportadoras, numPedidosApi]);
 
   return (
     <div className={styles.calculatorContainer}>
@@ -123,8 +121,7 @@ export default function Calculator() {
             multiple
             value={transportadoraName}
             onChange={handleChange}
-            input={<Input
-              className={styles.multiSelect} />}
+            input={<Input className={styles.multiSelect} />}
             renderValue={(selected: any) => (
               <div className={classes.chips}>
                 {selected.map((value) => (
@@ -145,16 +142,18 @@ export default function Calculator() {
         <span className={styles.numPedidos}>{numPedidos} pedidos mensais</span>
 
         <div className={styles.pedidos}>
-          <div className={styles.slider}>
+          <div className={styles.sliderContainer}>
             <Slider
               trackStyle={{ backgroundColor: '#fff' }}
               railStyle={{ backgroundColor: '#777' }}
               handleStyle={{ borderColor: '#94aa44', borderWidth: 4 }}
+              className={styles.slider}
               step={50}
               min={minPedidos}
               max={maxPedidos}
               value={numPedidos}
               onChange={val => setNumPedidos(val)}
+              onAfterChange={val => setNumPedidosApi(val)}
             />
           </div>
           <span>{minPedidos}</span>
@@ -169,7 +168,7 @@ export default function Calculator() {
             R$ {valor} mensal
           </span>
           <span className={styles.costFinal}>
-            ({valorPedido} por pedido)
+            (R$ {valorPedido} por pedido)
           </span>
         </div>
       </div>
